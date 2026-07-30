@@ -47,7 +47,7 @@ wget https://raw.githubusercontent.com/nlohmann/json/develop/single_include/nloh
 ```
 ### 4. Install Cloudflare Quick Tunnels (cloudflared)
 ```bash
-curl -L --output cloudflared.deb https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64.deb]
+curl -L --output cloudflared.deb https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64.deb
 sudo dpkg -i cloudflared.deb
 ```
 ### 5. Compile the C++ server
