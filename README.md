@@ -33,21 +33,21 @@ Before you begin, ensure your Linux system has the following installed:
 ### 1. Clone the Repository
 Clone the project repository to your local machine and navigate into the folder:
 ```bash
-git clone [https://github.com/YOUR_USERNAME/YOUR_REPOSITORY_NAME.git](https://github.com/YOUR_USERNAME/YOUR_REPOSITORY_NAME.git)
-cd YOUR_REPOSITORY_NAME
+git clone https://github.com/KDN-23101/osprey.git
+cd osprey
 ```
 ### 2. Download the required cpp-httplib header
 ```bash
-wget [https://raw.githubusercontent.com/yhirose/cpp-httplib/master/httplib.h](https://raw.githubusercontent.com/yhirose/cpp-httplib/master/httplib.h)
+wget https://raw.githubusercontent.com/yhirose/cpp-httplib/master/httplib.h
 ```
 ### 3. Download the required nlohmann/json header
 ```bash
 mkdir nlohmann
-wget [https://raw.githubusercontent.com/nlohmann/json/develop/single_include/nlohmann/json.hpp](https://raw.githubusercontent.com/nlohmann/json/develop/single_include/nlohmann/json.hpp) -O nlohmann/json.hpp
+wget https://raw.githubusercontent.com/nlohmann/json/develop/single_include/nlohmann/json.hpp -O nlohmann/json.hpp
 ```
 ### 4. Install Cloudflare Quick Tunnels (cloudflared)
 ```bash
-curl -L --output cloudflared.deb [https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64.deb](https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64.deb)
+curl -L --output cloudflared.deb https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64.deb]
 sudo dpkg -i cloudflared.deb
 ```
 ### 5. Compile the C++ server
