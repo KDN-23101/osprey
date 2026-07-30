@@ -52,10 +52,10 @@ sudo dpkg -i cloudflared.deb
 ```
 ### 5. Compile the C++ server
 ```bash
-g++ -O3 server.cpp -o blog_server -lpthread
+g++ -O3 osprey.cpp -o osprey -lpthread
 ```
 
 ### 6. Start the server
 ```bash
-./blog_server
+./osprey
 ```
