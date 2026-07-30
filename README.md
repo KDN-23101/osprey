@@ -54,6 +54,7 @@ sudo dpkg -i cloudflared.deb
 ```bash
 g++ -O3 server.cpp -o blog_server -lpthread
 ```
+
 ### 6. Start the server
 ```bash
 ./blog_server
